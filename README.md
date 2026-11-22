@@ -1,40 +1,51 @@
 # FlowPilot
 
-FlowPilot is a small-business finance workspace prototype built with React, TypeScript, Vite, and Supabase. Its public site uses a cinematic editorial style; the private workspace focuses on saved business records and clear financial summaries.
+> **Everything your business needs to flow.**
+>
+> Less chaos. More control.
 
-## Current application
+FlowPilot is a financial management workspace prototype for small businesses. It brings customer records, invoices, payments, expenses, payment follow-ups and cash-flow visibility into one place.
 
-- Public homepage with responsive sections, GSAP motion, reduced-motion support, and light/dark themes.
-- Supabase email/password signup, login, session restoration, protected routes, and business onboarding.
-- Business dashboard with receivables, overdue invoices, collections, bills, setup checklist, and action items based on saved records.
-- Customer and invoice management, line items, invoice status derivation, and PDF generation.
-- Expense and supplier-bill records, reminder drafts and history, cash-flow views, reports, and CSV exports.
+## What’s included
 
-Reminder messages are drafts; FlowPilot does not send email or WhatsApp messages. Financial figures should come from the authenticated business's saved records. Illustrative homepage data is labeled as such.
+- **Public homepage** — responsive editorial design, GSAP storytelling animations, reduced-motion support and light/dark themes.
+- **Accounts and onboarding** — Supabase email/password authentication, session restoration, protected routes and business setup.
+- **Financial workspace** — business dashboard and saved-record summaries for receivables, overdue invoices, collections, bills and setup actions.
+- **Invoices and customers** — customer records, invoice line items, derived payment status, payment history and invoice PDF generation.
+- **Business operations** — expenses, supplier bills, reminder drafts and history, cash-flow views, reports and CSV exports.
 
-## Requirements
+Reminder content is prepared as a draft; the application does not send email or WhatsApp messages. Workspace financial values are intended to come from the authenticated business’s saved records. Any illustrative figures on the public homepage are labeled as examples.
 
-- Node.js 20.19+ or 22.12+.
-- A Supabase project for authentication and private workspace data.
+## Technology
 
-## Local setup
+React · TypeScript · Vite · React Router · Supabase · PostgreSQL · GSAP / ScrollTrigger · Lucide · Playwright
+
+## Run locally
+
+### Requirements
+
+- Node.js 20.19+ or 22.12+
+- npm
+- A Supabase project for authentication and workspace data
+
+### Setup
 
 ```sh
 npm install
 cp .env.example .env.local
 ```
 
-Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in `.env.local` using the project URL and publishable/anon key. Never put a Supabase secret or service-role key in a `VITE_` variable. `.env.local` is ignored by Git.
+Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in `.env.local` using the Supabase project URL and publishable/anon key. Never put a service-role or secret key in frontend configuration. `.env.local` is excluded from Git.
 
-Run the application at [http://127.0.0.1:5174](http://127.0.0.1:5174):
+Configure the Supabase Auth Site URL and redirect allowlist for your local origin and the app’s `/login` and `/onboarding` routes. See [SUPABASE_SETUP.md](SUPABASE_SETUP.md) for project linking, migrations and auth setup.
+
+Start the Vite server at [http://127.0.0.1:5174](http://127.0.0.1:5174):
 
 ```sh
 npm run dev
 ```
 
-Configure Supabase Auth's Site URL and redirect allowlist for the local origin and `/onboarding` and `/login`. Email confirmation must be enabled for verified signup. See [SUPABASE_SETUP.md](SUPABASE_SETUP.md) for migration and deployment details.
-
-## Checks and browser tests
+## Quality checks and browser tests
 
 ```sh
 npm run lint
@@ -43,24 +54,24 @@ npm run build
 npm run check
 ```
 
-Install the Playwright Chromium browser once, then run the browser suite:
+Install Playwright’s Chromium browser and run the browser suite:
 
 ```sh
 npx playwright install chromium
 npm run test:e2e
 ```
 
-The authenticated invoice test requires a dedicated, verified QA account that has completed onboarding. Set `FLOWPILOT_TEST_EMAIL` and `FLOWPILOT_TEST_PASSWORD` only in the test process; do not commit or paste credentials. Run it with tracing disabled because browser traces can capture form input:
+The authenticated invoice test uses a dedicated, email-verified QA account that has completed onboarding. Provide `FLOWPILOT_TEST_EMAIL` and `FLOWPILOT_TEST_PASSWORD` only to the local test process. Never commit or share those values. Tracing is disabled for the authenticated test because traces may capture form input:
 
 ```sh
 npx playwright test tests/browser/invoice-management-auth.spec.ts --project=desktop --trace=off
 ```
 
-The authenticated PDF download has not been verified. The current browser suite's PDF helper test does not prove a saved, authenticated invoice download.
+Authenticated PDF download verification is incomplete; the PDF helper test does not verify a saved, authenticated invoice download.
 
 ## Database migrations
 
-The migration files are in `supabase/migrations/`. For a new Supabase project, link the intended project and review the pending changes before applying:
+Migration files are in `supabase/migrations/`. For a new Supabase project, link the intended project and inspect the dry run before applying migrations:
 
 ```sh
 npx supabase login
@@ -69,15 +80,35 @@ npx supabase db push --dry-run --remote
 npx supabase db push --remote
 ```
 
-Do not reset a linked database to apply migrations. The linked FlowPilot project currently has migrations `202611210001` through `202611220005` applied. The application uses only a publishable/anon key; row-level security policies and private database functions enforce business access.
+Do not reset a linked database to apply migrations. The configured FlowPilot project has migrations `202611210001` through `202611220005` applied. The client uses a publishable/anon key; row-level security and private database functions enforce business data access.
+
+## Project structure
+
+```text
+src/
+  app/                 Application routes and providers
+  auth/                Authentication and protected-route logic
+  components/          Shared interface components
+  config/              Centralized brand and application configuration
+  lib/                 Supabase client and data utilities
+  pages/               Public, authentication and workspace pages
+  sections/            Public homepage storytelling sections
+  styles/              Global styles and design tokens
+supabase/
+  migrations/          Database schema, functions and RLS policies
+tests/
+  browser/             Playwright browser tests
+docs/                  Product, design and setup documentation
+public/                Static public assets
+```
 
 ## Deployment
 
-Build with `npm run build` and publish the `dist/` directory. Set the two Vite environment variables in the hosting provider's build environment, configure the provider to rewrite client-side routes to `/index.html`, and add the deployed `/onboarding` and `/login` URLs to Supabase Auth's redirect allowlist. No hosting provider is configured in this repository.
+Build with `npm run build` and publish `dist/` from a static host. Set the two Vite environment variables in the host’s build environment, configure client-side route fallback to `/index.html`, and add the deployed `/login` and `/onboarding` URLs to the Supabase Auth redirect allowlist. This repository does not configure a hosting provider.
 
-## Known verification limits
+## Current verification limits
 
-- The application requests password recovery emails, but the current UI does not handle the recovery session or provide a new-password form.
-- The payment page calls `public.record_invoice_payment`, while the migration defines that function in the non-exposed `private` schema. In-app payment recording therefore requires an API wrapper before it can be treated as verified.
+- Password recovery can request an email, but the UI does not yet complete the recovery session or provide a new-password form.
+- The payment page calls `public.record_invoice_payment`, while the migration defines the function in the non-exposed `private` schema. In-app payment recording needs an API wrapper before it can be treated as verified.
 - Authenticated invoice PDF download verification is incomplete.
-- Automated authenticated tests cover invoice flows only; do not treat the other business workflows as end-to-end verified from the current suite.
+- Automated authenticated browser coverage currently focuses on invoice flows; other financial workflows should not be considered end-to-end verified based on that suite alone.
