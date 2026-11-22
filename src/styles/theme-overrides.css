@@ -1,0 +1,286 @@
+/* A deliberate two-palette system: the dark story scenes stay cinematic while
+   the reading surfaces and product panels change material with the theme. */
+body { background: var(--page); color: var(--page-text); }
+.theme-transitioning *, .theme-transitioning *::before, .theme-transitioning *::after {
+  transition-property: color, background-color, border-color, box-shadow, fill, stroke !important;
+  transition-duration: var(--theme-duration) !important;
+  transition-timing-function: ease !important;
+}
+
+.theme-toggle {
+  min-height: 38px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid rgba(238,239,230,.32);
+  border-radius: 2px;
+  color: #e5e7dd;
+  background: rgba(239,240,232,.055);
+  cursor: pointer;
+  font: 500 11px var(--sans);
+  transition: color .2s, background .2s, border-color .2s, transform .2s;
+}
+.theme-toggle:hover { color: #fff; background: rgba(239,240,232,.13); border-color: rgba(238,239,230,.72); transform: translateY(-1px); }
+.theme-toggle:active { transform: translateY(0) scale(.98); }
+.theme-toggle svg { color: #c2cbb8; flex: 0 0 auto; }
+.theme-toggle-compact { width: 40px; min-height: 40px; padding: 0; }
+.theme-toggle-compact svg { width: 18px; height: 18px; }
+.placeholder-nav-actions { display: flex; align-items: center; gap: 18px; }
+.placeholder-nav-actions > span { color: #a1a79a; font-size: 10px; letter-spacing: .15em; }
+
+/* Theme the light reading scenes and the product panels as real surfaces. */
+:root[data-theme='dark'] .product-section,
+:root[data-theme='dark'] .invoice-section,
+:root[data-theme='dark'] .reminder-section {
+  background: var(--page);
+  color: var(--page-text);
+}
+:root[data-theme='dark'] .product-section :where(h2,h3,.surface-title,.surface-title h3,.product-caption p),
+:root[data-theme='dark'] .invoice-section :where(h2,h3,.invoice-controls h3),
+:root[data-theme='dark'] .reminder-section :where(h2,h3,.reminder-card-top h3) { color: var(--page-text); }
+:root[data-theme='dark'] .product-section :where(p,.product-heading > div:nth-child(2) p,.product-caption p),
+:root[data-theme='dark'] .invoice-section :where(p,.invoice-intro > div:nth-child(2) p),
+:root[data-theme='dark'] .reminder-section :where(p) { color: var(--page-muted); }
+
+:root[data-theme='dark'] .product-surface,
+:root[data-theme='dark'] .invoice-sheet,
+:root[data-theme='dark'] .payment-receipt,
+:root[data-theme='dark'] .reminder-card {
+  color: var(--control-text);
+  background: var(--control-bg);
+  border-color: var(--control-line);
+  box-shadow: var(--shadow-panel);
+}
+:root[data-theme='dark'] .product-surface :where(h3,b,strong),
+:root[data-theme='dark'] .invoice-sheet :where(b,strong),
+:root[data-theme='dark'] .payment-receipt :where(strong),
+:root[data-theme='dark'] .reminder-card :where(h3,b) { color: var(--control-text); }
+:root[data-theme='dark'] .product-surface :where(small,span:not(.person-dot),.invoice-row,.activity-entry),
+:root[data-theme='dark'] .invoice-sheet :where(small,span,.sheet-description,.progress-caption),
+:root[data-theme='dark'] .payment-receipt :where(small,span),
+:root[data-theme='dark'] .reminder-card :where(small,.draft-message p,.draft-signoff,.overdue-customer > div:nth-child(2) > span) { color: var(--control-muted); }
+
+:root[data-theme='dark'] .product-surface-head,
+:root[data-theme='dark'] .product-metrics,
+:root[data-theme='dark'] .product-lower,
+:root[data-theme='dark'] .invoice-stage,
+:root[data-theme='dark'] .overdue-customer,
+:root[data-theme='dark'] .human-check { border-color: var(--control-line); }
+:root[data-theme='dark'] .product-metrics > div,
+:root[data-theme='dark'] .metric-primary,
+:root[data-theme='dark'] .draft-message,
+:root[data-theme='dark'] .reminder-backnote { background: var(--page-soft); border-color: var(--control-line) !important; }
+:root[data-theme='dark'] .metric-primary :where(strong,.metric-note,.metric-direction),
+:root[data-theme='dark'] .product-caption span,
+:root[data-theme='dark'] .surface-section-head,
+:root[data-theme='dark'] .table-head,
+:root[data-theme='dark'] .row-status,
+:root[data-theme='dark'] .activity-entry small { color: var(--page-muted); }
+:root[data-theme='dark'] .invoice-sheet .sheet-divider,
+:root[data-theme='dark'] .progress-track,
+:root[data-theme='dark'] .receipt-rule { background-color: var(--page-line); }
+:root[data-theme='dark'] .invoice-status-chip { background: var(--control-bg); color: var(--success); border-color: var(--success); }
+:root[data-theme='dark'] .invoice-status-chip.chip-partially-paid { color: var(--warning); border-color: var(--warning); }
+:root[data-theme='dark'] .invoice-status-chip.chip-paid { color: var(--success); border-color: var(--success); }
+
+:root[data-theme='dark'] .state-switcher button { color: #b0b7aa; border-color: var(--page-line); }
+:root[data-theme='dark'] .state-switcher button:hover { color: var(--page-text); background: rgba(205,215,194,.07); }
+:root[data-theme='dark'] .state-switcher button.state-current { color: #e0e7d7; background: rgba(173,190,157,.12); }
+:root[data-theme='dark'] .tone-buttons button { color: var(--control-muted); border-color: var(--control-line); }
+:root[data-theme='dark'] .tone-buttons button:hover { background: rgba(194,207,181,.09); border-color: #a9b99b; }
+:root[data-theme='dark'] .tone-buttons button.tone-active { color: #e3eadb; background: #303a30; border-color: #849478; }
+:root[data-theme='dark'] .copy-draft { color: #c0c6ba; }
+:root[data-theme='dark'] .review-draft { color: #141815; background: #c2cdb6; border-color: #c2cdb6; }
+:root[data-theme='dark'] .review-draft:hover { background: #d9e1cf; }
+:root[data-theme='dark'] .draft-status { color: #dbbb91; border-color: rgba(219,187,145,.4); }
+:root[data-theme='dark'] .draft-status.reviewed { color: #c5d6b8; border-color: #849478; }
+
+/* Deepen the charcoal scenes in dark mode without flattening their layers. */
+:root[data-theme='dark'] .hero,
+:root[data-theme='dark'] .footer { background: var(--scene-deep); }
+:root[data-theme='dark'] .problem-scene,
+:root[data-theme='dark'] .final-section,
+:root[data-theme='dark'] .placeholder-page { background: var(--scene); }
+:root[data-theme='dark'] .cash-section,
+:root[data-theme='dark'] .forecast-frame { background: var(--scene-raised); }
+:root[data-theme='dark'] .debris,
+:root[data-theme='dark'] .forecast-frame .scenario-control { background: var(--scene-inset); }
+:root[data-theme='dark'] .forecast-frame :where(h3,b,strong) { color: #f0eee7; }
+:root[data-theme='dark'] .forecast-frame :where(p,small,em,.chart-ticks,.plot-y-labels) { color: #c0c6ba; }
+:root[data-theme='dark'] .forecast-frame .plot-grid i { background: var(--chart-grid); }
+:root[data-theme='dark'] .forecast-current { stroke: var(--chart-main); }
+:root[data-theme='dark'] .forecast-current[stroke='#d08a68'] { stroke: var(--chart-alert); }
+:root[data-theme='dark'] .buffer-line { border-color: #d0a084; }
+:root[data-theme='dark'] .scenario-control input { background: linear-gradient(90deg,#b7c2a7,#b7c2a7); }
+:root[data-theme='dark'] .scenario-control input::-webkit-slider-thumb { background: #e0e8d7; border-color: #829176; }
+
+:root[data-theme='dark'] .nav-main-open { background: #141a15; }
+:root[data-theme='dark'] .nav-button:hover { color: #141815; background: #e5e9df; }
+:root[data-theme='dark'] .theme-toggle { border-color: rgba(238,239,230,.5); }
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-transitioning *, .theme-transitioning *::before, .theme-transitioning *::after { transition-duration: .01ms !important; }
+}
+
+/* Legible controls and touch targets. */
+.nav-items a, .nav-utilities > a:first-child { font-size: 12px; }
+.nav-button { font-size: 11px; min-height: 42px; }
+.theme-toggle { min-height: 42px; font-size: 12px; }
+.button { font-size: 11px; }
+.invoice-controls > p, .invoice-intro > div:nth-child(2) p,
+.product-heading > div:nth-child(2) p, .cash-section-top > div > p,
+.reminder-story > div > p, .problem-copy > div:nth-child(2) p,
+.final-content > div > p, .placeholder-copy > p { font-size: 16px; line-height: 1.75; }
+.eyebrow { font-size: 11px; }
+.state-switcher button, .tone-buttons button { min-height: 42px; padding: 8px 12px; font-size: 12px; cursor: pointer; transition: color .22s, background .22s, border-color .22s, transform .22s; }
+.state-switcher button:hover, .tone-buttons button:hover { transform: translateY(-1px); background-color: var(--selected-bg); }
+.state-switcher button:focus-visible, .tone-buttons button:focus-visible,
+.nav-items a:focus-visible, .nav-utilities a:focus-visible, .footer a:focus-visible { outline: 2px solid var(--sage); outline-offset: 4px; }
+.state-switcher button.state-current { color: var(--selected-text); background: var(--selected-bg); border-color: var(--olive); box-shadow: inset 3px 0 var(--olive); }
+.tone-buttons button.tone-active { box-shadow: inset 0 -2px var(--olive); }
+.invoice-stage { position: relative; }
+.invoice-stage::before { content: ''; position: absolute; z-index: 0; inset: 8% 13%; pointer-events: none; background: radial-gradient(ellipse, var(--invoice-glow), transparent 68%); }
+.invoice-controls, .invoice-sheet, .payment-receipt { position: relative; z-index: 1; }
+.invoice-sheet { box-shadow: var(--shadow-panel); }
+.payment-receipt { width: min(100%, 218px); margin: 54px 0 0 -34px; transform: rotate(-2deg); }
+
+/* The product scene keeps its complete story on small screens. */
+@media (max-width: 760px) {
+  .nav-utilities { gap: 12px; }
+  .nav-utilities > a:first-child { font-size: 13px; }
+  .nav-button { min-height: 42px; padding-inline: 12px; }
+  .theme-toggle { width: 42px; min-height: 42px; }
+  .theme-toggle > span { display: none; }
+  .hero-kicker, .hero-scroll-cue, .hero-baseline { font-size: 10px; }
+  .hero-deck { max-width: 36rem; font-size: 16px; line-height: 1.65; }
+  .button { min-height: 48px; padding-inline: 15px; font-size: 11px; }
+  .problem-copy > div:nth-child(2) p, .product-heading > div:nth-child(2) p,
+  .invoice-intro > div:nth-child(2) p, .cash-section-top > div > p,
+  .reminder-story > div > p, .final-content > div > p, .placeholder-copy > p { font-size: 15px; }
+  .debris { min-width: 0; max-width: 46%; padding: 10px; }
+  .debris small, .debris em { font-size: 10px; }
+  .debris b { font-size: 12px; }
+  .debris-symbol { width: 25px; height: 25px; flex-basis: 25px; }
+  .product-heading h2, .invoice-intro h2, .problem-copy h2, .cash-section h2, .reminder-story h2 { font-size: clamp(42px, 10vw, 62px); }
+  .product-surface { transform: none; }
+  .product-metrics { grid-template-columns: 1fr 1fr; }
+  .product-metrics > div:last-child { display: flex; grid-column: 1 / -1; min-height: auto; }
+  .product-metrics small { font-size: 10px; }
+  .product-metrics strong, .metric-primary strong { font-size: 20px; }
+  .metric-direction, .metric-note { font-size: 11px; }
+  .product-lower { display: block; }
+  .product-activity { display: block; margin: 15px 0 0; padding: 12px; border-top: 1px solid var(--control-line); }
+  .surface-section-head, .surface-title small, .surface-date { font-size: 10px; }
+  .surface-title h3 { font-size: 16px; }
+  .table-head { display: none; }
+  .invoice-list { display: grid; gap: 6px; }
+  .invoice-row { min-height: 58px; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'customer amount' 'number status'; gap: 5px 10px; padding: 9px 7px; border: 1px solid var(--control-line); font-size: 11px; }
+  .invoice-row > span:first-child { grid-area: customer; gap: 7px; }
+  .invoice-row > span:nth-child(2) { grid-area: number; }
+  .invoice-row > b { grid-area: amount; font-size: 13px; }
+  .invoice-row > span:last-child { grid-area: status; justify-self: end; }
+  .invoice-row b { font-size: 12px; }
+  .person-dot { width: 24px; height: 24px; flex-basis: 24px; font-size: 10px; }
+  .row-status { font-size: 10px; gap: 4px; }
+  .activity-entry, .activity-entry small { font-size: 11px; }
+  .product-caption span { font-size: 10px; }
+  .product-caption p { font-size: 14px; }
+  .invoice-intro > div:nth-child(2) p { margin-top: 16px; }
+  .invoice-stage { grid-template-columns: minmax(0, 1fr); gap: 16px; margin-top: 25px; }
+  .invoice-controls { min-height: 0; padding: 6px 0 0; }
+  .invoice-controls h3 { margin: 16px 0 8px; font-size: 27px; }
+  .invoice-controls > p { margin: 0; font-size: 15px; }
+  .state-switcher { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 14px; }
+  .state-switcher button { justify-content: center; min-width: 0; min-height: 46px; padding: 7px 5px; font-size: 11px; }
+  .state-switcher button span { display: none; }
+  .state-switcher button svg { width: 15px; }
+  .data-flag { display: block; margin-top: 12px; font-size: 10px; }
+  .invoice-sheet { min-height: 0; padding: 23px 19px; }
+  .sheet-corner { font-size: 10px; padding: 6px 8px; }
+  .sheet-mark { font-size: 26px; }
+  .sheet-label { font-size: 11px; }
+  .sheet-parties { margin: 22px 0; }
+  .sheet-parties small, .sheet-total > span { font-size: 10px; }
+  .sheet-parties b { font-size: 15px; }
+  .sheet-parties span { font-size: 12px; }
+  .sheet-description { margin: 14px 0; font-size: 14px; }
+  .sheet-description.muted { font-size: 12px; }
+  .sheet-total strong { font-size: 25px; }
+  .payment-progress { margin-top: 23px; }
+  .progress-label, .progress-label b { font-size: 11px; }
+  .progress-label i { font-size: 10px; }
+  .progress-track { height: 7px; }
+  .progress-caption { font-size: 11px; }
+  .invoice-status-chip { position: static; width: max-content; margin: 18px 0 4px auto; transform: none; font-size: 10px; padding: 7px 9px; }
+  .payment-receipt { position: relative; right: auto; bottom: auto; width: 100%; margin: 0; padding: 15px; transform: none; }
+  .receipt-topline > span { width: 28px; height: 28px; }
+  .receipt-topline small, .receipt-foot { font-size: 10px; }
+  .payment-receipt > strong { font-size: 23px; }
+  .payment-receipt > span { font-size: 13px; }
+  .invoice-bottomline { margin-top: 25px; padding-top: 14px; font-size: 9px; }
+  .invoice-bottomline > div { gap: 7px; font-size: 10px; }
+  .cash-section-top > div > p { font-size: 15px; }
+  .forecast-summary small, .forecast-summary em { font-size: 10px; }
+  .plot-y-labels, .plot-axis { font-size: 9px; }
+  .buffer-line span { font-size: 9px; }
+  .forecast-ledger b, .forecast-ledger strong { font-size: 12px; }
+  .forecast-ledger small { font-size: 10px; }
+  .scenario-control-head label { font-size: 11px; }
+  .scenario-control output { font-size: 13px; }
+  .scenario-control > p { font-size: 12px; }
+  .footer-group > span, .footer-group a, .footer-base { font-size: 10px; }
+  .placeholder-nav-actions > span, .placeholder-base { font-size: 10px; }
+  .placeholder-status, .placeholder-home { font-size: 12px; }
+  .reminder-card { padding: 20px 17px; }
+  .reminder-card-top h3 { font-size: 19px; }
+  .draft-status { font-size: 10px; }
+  .overdue-customer > div:nth-child(2) b { font-size: 14px; }
+  .overdue-customer > div:nth-child(2) > span, .overdue-customer small, .amount-due small, .amount-due span { font-size: 10px; }
+  .amount-due b { font-size: 16px; }
+  .tone-label, .tone-label span { font-size: 10px; }
+  .draft-message-head, .draft-message-head span, .draft-signoff, .human-check span, .human-check small { font-size: 10px; }
+  .draft-message p { font-size: 15px; }
+  .tone-buttons button { flex: 1; font-size: 12px; }
+  .copy-draft, .review-draft { min-height: 42px; font-size: 11px; }
+}
+@media (max-width: 390px) {
+  .hero h1 { font-size: clamp(43px, 12vw, 51px); }
+  .invoice-sheet { padding-inline: 15px; }
+  .sheet-description { font-size: 12px; }
+  .state-switcher button { font-size: 10px; }
+}
+
+/* Financial details should remain readable at presentation scale. */
+.surface-title small, .surface-date, .product-metrics small, .table-head,
+.product-caption span, .invoice-bottomline { font-size: 10px; }
+.surface-title h3 { font-size: 19px; }
+.product-metrics strong { font-size: 23px; }
+.metric-direction { font-size: 11px; }
+.metric-note { font-size: 10px; }
+.invoice-row { font-size: 12px; }
+.invoice-row b, .invoice-row > b { font-size: 13px; }
+.row-status { font-size: 10px; }
+.activity-entry, .activity-entry small { font-size: 11px; }
+.sheet-corner { font-size: 9px; }
+.sheet-label { font-size: 10px; }
+.sheet-parties small, .sheet-total > span { font-size: 10px; }
+.sheet-parties b { font-size: 15px; }
+.sheet-parties span { font-size: 11px; }
+.sheet-description { font-size: 13px; }
+.sheet-description.muted { font-size: 11px; }
+.sheet-total strong { font-size: 25px; }
+.progress-label, .progress-caption { font-size: 10px; }
+.progress-label b { font-size: 11px; }
+.progress-label i { font-size: 10px; }
+.progress-track { height: 5px; }
+.invoice-status-chip { font-size: 10px; }
+.invoice-status-chip { top: -29px; right: 13px; transform: rotate(-2deg); }
+.receipt-topline small, .receipt-foot { font-size: 10px; }
+.payment-receipt > span { font-size: 12px; }
+.invoice-bottomline > div { font-size: 10px; }
+.footer-group > span, .footer-group a, .footer-base, .final-label { font-size: 10px; }
+@media (max-width: 760px) {
+  .invoice-status-chip { position: static; width: max-content; margin: 18px auto 2px; transform: none; }
+}

@@ -1,0 +1,24 @@
+node_modules/
+dist/
+coverage/
+.DS_Store
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.local
+credentials/
+credentials*.json
+service-account*.json
+secrets/
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Local tools and generated test output
+.supabase/
+supabase/.temp/
+test-results/
+playwright-report/
