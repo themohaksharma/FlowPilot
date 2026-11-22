@@ -110,9 +110,3 @@ public/                Static public assets
 
 Build with `npm run build` and publish `dist/` from a static host. Set the two Vite environment variables in the host’s build environment, configure client-side route fallback to `/index.html`, and add the deployed `/login` and `/onboarding` URLs to the Supabase Auth redirect allowlist. This repository does not configure a hosting provider.
 
-## Current verification limits
-
-- Password recovery can request an email, but the UI does not yet complete the recovery session or provide a new-password form.
-- The payment page calls `public.record_invoice_payment`, while the migration defines the function in the non-exposed `private` schema. In-app payment recording needs an API wrapper before it can be treated as verified.
-- Authenticated invoice PDF download verification is incomplete.
-- Automated authenticated browser coverage currently focuses on invoice flows; other financial workflows should not be considered end-to-end verified based on that suite alone.
