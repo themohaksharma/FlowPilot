@@ -2,6 +2,18 @@
 
 [**Live Demo → https://flow-pilot-five-alpha.vercel.app**](https://flow-pilot-five-alpha.vercel.app)
 
+https://drive.google.com/file/d/1OXIHNuUNIUi9n1TkgPwS84jirganW10m/view?usp=drivesdk
+
+👆👆 Video Link 
+
+
+https://youtu.be/6STYeNcl_30?si=WB7z3fQ0XjlgMVdo
+
+ 👆👆 Video link on YouTube 
+
+
+
+
 FlowPilot is a financial management workspace for small businesses to manage customers, invoices, payments, expenses and cash flow in one place.
 
 > **Everything your business needs to flow.**
