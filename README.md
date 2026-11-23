@@ -13,6 +13,13 @@ https://youtu.be/6STYeNcl_30?si=WB7z3fQ0XjlgMVdo
 
 
 
+Try account 
+mail: mohaksharma432@gmail.com 
+pass: @1234567890
+sign in and start using or you can make ur own account and use !
+
+
+
 
 FlowPilot is a financial management workspace for small businesses to manage customers, invoices, payments, expenses and cash flow in one place.
 
